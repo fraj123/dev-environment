@@ -11,7 +11,7 @@ Vagrant.configure("2") do |config|
     ciConfig.vm.box = BOX_IMAGE
     ciConfig.vm.hostname = "main-ci"
     ciConfig.vm.provider :virtualbox do |vb|
-      ciConfig.vm.network :private_network, ip: "10.0.0.10"
+      ciConfig.vm.network :private_network, ip: "192.168.56.10"
       vb.gui = false
       vb.memory = "1500"
       vb.cpus   = "2"
@@ -24,7 +24,7 @@ Vagrant.configure("2") do |config|
     config.vm.define "agent-#{i}" do |agentConfig|
       agentConfig.vm.box = BOX_IMAGE
       agentConfig.vm.hostname = "agent-#{i}"
-      agentConfig.vm.network :private_network, ip: "10.0.0.#{i + 10}"
+      agentConfig.vm.network :private_network, ip: "192.168.56.#{i + 10}"
       agentConfig.vm.provider :virtualbox do |vb|
         vb.gui = false
         vb.memory = "2048"
@@ -38,7 +38,7 @@ Vagrant.configure("2") do |config|
   config.vm.provision :docker
   config.vm.provision "ansible" do |ansible|
     ansible.verbose = "v"
-    ansible.tags = "packer"
+    # ansible.tags = "packer"
     ansible.playbook = "playbook.yml"
   end
 end
