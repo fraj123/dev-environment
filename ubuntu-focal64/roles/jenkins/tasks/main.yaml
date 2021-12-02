@@ -4,7 +4,7 @@
     name: jenkins
     groups: users, docker
     state: present
-    shell: /bin/bash
+    shell: /bin/sh
     create_home: true
 
 - name: Create ssh directory

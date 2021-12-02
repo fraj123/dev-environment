@@ -3,14 +3,26 @@ version: '2'
 
 services:
   jenkins:
-    image: docker.io/bitnami/jenkins:2
+    build: ./jenkins_app
+    privileged: true
+    networks:
+      - jenkins
     ports:
-      - '80:8080'
+      - '8080:8080'
+      - '50000:50000'
     environment:
-      - JENKINS_PASSWORD=bitnami
+      - DOCKER_HOST=tcp://docker:2376
+      - DOCKER_CERT_PATH=/certs/client
+      - DOCKER_TLS_VERIFY=1
     volumes:
-      - 'jenkins_data:/bitnami/jenkins'
+      - jenkins-data:/var/jenkins_home
+      - jenkins-docker-certs:/certs/client:ro
 
+networks:
+  jenkins:
+    driver: bridge
 volumes:
-  jenkins_data:
+  jenkins-data:
+    driver: local
+  jenkins-docker-certs:
     driver: local
